@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - College EMS</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .compsa-promo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .compsa-promo h3 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .compsa-promo p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .promo-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+        }
+        
+        .feature-text {
+            font-weight: 500;
+        }
+        
+        .compsa-promo .btn-primary {
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .compsa-promo .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="../../assets/logos/logo.png" alt="College Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    <h2>SSIEMS</h2>
+                    <p>Event Management System</p>
+                </div>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="events.html" class="nav-link active">Events</a>
+                <a href="../user/register.html" class="nav-link">Register</a>
+                <a href="../auth/student-login.html" class="nav-link">Student Login</a>
+                <a href="../auth/faculty-login.html" class="nav-link">Faculty Login</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Events Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>College Events</h1>
+            <p>Discover and participate in exciting events happening on campus</p>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events-section">
+        <div class="container">
+            <div class="events-filters-bar">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="eventsSearch" placeholder="Search events...">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="technical">Technical</button>
+                    <button class="filter-btn" data-filter="cultural">Cultural</button>
+                    <button class="filter-btn" data-filter="sports">Sports</button>
+                </div>
+            </div>
+
+            <div class="events-grid" id="eventsContainer">
+                <!-- Events will be loaded dynamically -->
+            </div>
+            
+            <div class="compsa-promo">
+                <h3>COMPSA Online Event Management System</h3>
+                <p>Experience our comprehensive workflow for planning, organizing, and managing the COMPSA event:</p>
+                <div class="promo-features">
+                    <div class="feature">
+                        <span class="feature-icon">📋</span>
+                        <span class="feature-text">Online Notice & Registration</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🗳️</span>
+                        <span class="feature-text">Committee Formation</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">👨‍🏫</span>
+                        <span class="feature-text">Faculty Duty Allocation</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🗓️</span>
+                        <span class="feature-text">Event Planning Dashboard</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✉️</span>
+                        <span class="feature-text">Digital Invitations</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🏆</span>
+                        <span class="feature-text">Scoring & Results</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🍔</span>
+                        <span class="feature-text">Refreshment Management</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">📊</span>
+                        <span class="feature-text">Reports & Statistics</span>
+                    </div>
+                </div>
+                <a href="event-details.html?id=event-compsa" class="btn btn-primary">Explore COMPSA Workflow</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>College EMS</h3>
+                    <p>Your gateway to amazing college events and experiences.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../../index.html">Home</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="../user/register.html">Register</a></li>
+                        <li><a href="../auth/student-login.html">Student Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: ssiems@college.edu</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 College Event Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.SUPABASE_URL = '';
+        window.SUPABASE_ANON_KEY = '';
+    </script>
+    <script src="../../js/script.js"></script>
+</body>
+</html>

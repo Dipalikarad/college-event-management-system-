@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - College EMS</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="faculty-dashboard-body">
+    <!-- Admin Access Control -->
+    <script>
+        // Check if user is admin before allowing access
+        (function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                alert('Please login as admin to access this page.');
+                window.location.href = '../auth/faculty-login.html';
+                return;
+            }
+            
+            const user = JSON.parse(currentUser);
+            if (user.role !== 'admin') {
+                alert('Access Denied: This page is only accessible to administrators.');
+                window.location.href = '../../index.html';
+                return;
+            }
+        })();
+    </script>
+
+    <!-- Top Navigation Bar -->
+    <header class="faculty-top-nav">
+        <div class="nav-left">
+            <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="college-info">
+                <h1 class="college-name">Marathwada Shikshan Prasarak Mandal's</h1>
+                <p class="institute-name">Shri Shivaji Institute of Engineering and Management Studies, Parbhani</p>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="nav-icon-btn" id="notificationsBtn" title="Notifications">
+                <span class="icon">🔔</span>
+                <span class="badge" id="notificationBadge">3</span>
+            </button>
+            <div class="user-profile-menu">
+                <button class="user-profile-btn" id="userProfileBtn">
+                    <span class="icon">👨‍💼</span>
+                    <span class="user-name" id="adminName">Admin</span>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-header">
+                        <span class="icon">👨‍💼</span>
+                        <div>
+                            <p class="dropdown-name" id="dropdownName">System Administrator</p>
+                            <p class="dropdown-role" id="dropdownRole">Administrator</p>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" data-section="profile">
+                        <span class="icon">⚙️</span>
+                        Profile Settings
+                    </a>
+                    <a href="#" class="dropdown-item" onclick="logout()">
+                        <span class="icon">🚪</span>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Notifications Panel -->
+    <div class="notifications-panel" id="notificationsPanel">
+        <div class="panel-header">
+            <h3>Notifications</h3>
+            <button class="close-panel" id="closeNotifications">&times;</button>
+        </div>
+        <div class="notifications-list" id="notificationsList">
+            <!-- Notifications will be loaded dynamically -->
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="faculty-dashboard-container">
+        <!-- Sidebar Menu -->
+        <aside class="faculty-sidebar" id="facultySidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="sidebar-item active" data-section="dashboard">
+                    <span class="item-icon">📊</span>
+                    <span class="item-text">Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="events">
+                    <span class="item-icon">📅</span>
+                    <span class="item-text">Manage Events</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="students">
+                    <span class="item-icon">👥</span>
+                    <span class="item-text">Manage Students</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="faculty">
+                    <span class="item-icon">👨‍🏫</span>
+                    <span class="item-text">Manage Faculty</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="reports">
+                    <span class="item-icon">📈</span>
+                    <span class="item-text">Reports & Analytics</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="settings">
+                    <span class="item-icon">⚙️</span>
+                    <span class="item-text">System Settings</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="profile">
+                    <span class="item-icon">👤</span>
+                    <span class="item-text">Profile Settings</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../../index.html" class="back-link">← Back to Site</a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="faculty-main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="content-section active">
+                <!-- Welcome Card -->
+                <div class="welcome-card">
+                    <div class="welcome-content">
+                        <h2>Welcome back, <span id="welcomeName">Administrator</span>!</h2>
+                        <p class="welcome-role">Role: <span id="welcomeRole">System Administrator</span></p>
+                        <p class="welcome-subtitle">System overview and key metrics</p>
+                    </div>
+                    <div class="welcome-icon">👨‍💼</div>
+                </div>
+
+                <!-- Quick Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value" id="totalStudentsCount">0</h3>
+                            <p class="stat-label">Total Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-icon">👨‍🏫</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value" id="totalFacultyCount">0</h3>
+                            <p class="stat-label">Total Faculty</p>
+                        </div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value" id="totalEventsCount">0</h3>
+                            <p class="stat-label">Total Events</p>
+                        </div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value" id="totalRegistrationsCount">0</h3>
+                            <p class="stat-label">Total Registrations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Feed -->
+                <div class="activity-section">
+                    <h3 class="section-title">Recent Activity</h3>
+                    <div class="activity-feed" id="activityFeed">
+                        <!-- Activity items will be loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Events Management Section -->
+            <section id="eventsSection" class="content-section">
+                <div class="section-header-bar">
+                    <h2>Manage Events</h2>
+                    <button class="btn-primary" onclick="openAddEventModal()">+ Add New Event</button>
+                </div>
+                
+                <div class="events-filters-bar">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="eventsSearch" placeholder="Search events...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                        <button class="filter-btn" data-filter="pending">Pending</button>
+                    </div>
+                </div>
+
+                <div class="events-table-container">
+                    <table class="events-table">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Registrations</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventsTableBody">
+                            <!-- Events will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Students Management Section -->
+            <section id="studentsSection" class="content-section">
+                <div class="section-header-bar">
+                    <h2>Manage Students</h2>
+                    <button class="btn-primary" onclick="exportStudents()">Export Data</button>
+                </div>
+                
+                <div class="events-filters-bar">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="studentsSearch" placeholder="Search students...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="inactive">Inactive</button>
+                    </div>
+                </div>
+
+                <div class="students-table-container">
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Year</th>
+                                <th>Registration Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- Students will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Faculty Management Section -->
+            <section id="facultySection" class="content-section">
+                <div class="section-header-bar">
+                    <h2>Manage Faculty</h2>
+                    <button class="btn-primary" onclick="openAddFacultyModal()">+ Add Faculty</button>
+                </div>
+                
+                <div class="events-filters-bar">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="facultySearch" placeholder="Search faculty...">
+                    </div>
+                </div>
+
+                <div class="students-table-container">
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Faculty Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Role</th>
+                                <th>Join Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="facultyTableBody">
+                            <!-- Faculty will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Reports & Analytics Section -->
+            <section id="reportsSection" class="content-section">
+                <h2 class="section-title">Reports & Analytics</h2>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Event Participation</h3>
+                            <select id="participationFilter" class="chart-filter">
+                                <option value="all">All Events</option>
+                                <option value="month">This Month</option>
+                                <option value="quarter">This Quarter</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <p>Event Participation Chart</p>
+                                <p class="chart-note">(Chart.js implementation would go here)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>User Registration Trend</h3>
+                            <select id="trendFilter" class="chart-filter">
+                                <option value="7days">Last 7 Days</option>
+                                <option value="30days">Last 30 Days</option>
+                                <option value="90days">Last 90 Days</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <p>Registration Trend Chart</p>
+                                <p class="chart-note">(Chart.js implementation would go here)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value">85%</h3>
+                            <p class="stat-label">System Uptime</p>
+                        </div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value">245ms</h3>
+                            <p class="stat-label">Avg. Response Time</p>
+                        </div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-icon">🔒</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value">100%</h3>
+                            <p class="stat-label">Security Score</p>
+                        </div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-icon">🔄</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value">99.9%</h3>
+                            <p class="stat-label">Data Accuracy</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Settings Section -->
+            <section id="settingsSection" class="content-section">
+                <h2 class="section-title">System Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3>General Settings</h3>
+                        <div class="form-group">
+                            <label for="siteName">Site Name</label>
+                            <input type="text" id="siteName" value="College Event Management System">
+                        </div>
+                        <div class="form-group">
+                            <label for="siteEmail">Site Email</label>
+                            <input type="email" id="siteEmail" value="admin@college.edu">
+                        </div>
+                        <div class="form-group">
+                            <label for="maintenanceMode">Maintenance Mode</label>
+                            <select id="maintenanceMode">
+                                <option value="off">Off</option>
+                                <option value="on">On</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary">Save Changes</button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3>Email Settings</h3>
+                        <div class="form-group">
+                            <label for="smtpHost">SMTP Host</label>
+                            <input type="text" id="smtpHost" value="smtp.college.edu">
+                        </div>
+                        <div class="form-group">
+                            <label for="smtpPort">SMTP Port</label>
+                            <input type="number" id="smtpPort" value="587">
+                        </div>
+                        <div class="form-group">
+                            <label for="smtpUsername">SMTP Username</label>
+                            <input type="text" id="smtpUsername" value="noreply@college.edu">
+                        </div>
+                        <button class="btn-primary">Save Changes</button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3>Backup Settings</h3>
+                        <div class="form-group">
+                            <label for="backupFrequency">Backup Frequency</label>
+                            <select id="backupFrequency">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="backupRetention">Backup Retention (days)</label>
+                            <input type="number" id="backupRetention" value="30">
+                        </div>
+                        <button class="btn-primary" onclick="performBackup()">Perform Backup Now</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Settings Section -->
+            <section id="profileSection" class="content-section">
+                <h2 class="section-title">Profile Settings</h2>
+                <div class="profile-card">
+                    <form id="profileForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="profileName" value="System Administrator" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="profileEmail" value="admin@college.edu" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" id="newPassword" placeholder="Leave blank to keep current password">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../js/script.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script>
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get current user
+            const currentUser = checkLoginStatus();
+            
+            if (!currentUser) {
+                window.location.href = '../auth/faculty-login.html';
+                return;
+            }
+            
+            // Set user info
+            document.getElementById('adminName').textContent = currentUser.name;
+            document.getElementById('dropdownName').textContent = currentUser.name;
+            document.getElementById('dropdownRole').textContent = 'Administrator';
+            document.getElementById('welcomeName').textContent = currentUser.name;
+            document.getElementById('welcomeRole').textContent = 'System Administrator';
+            
+            // Load dashboard data
+            loadDashboardData();
+            
+            // Set up event listeners
+            setupEventListeners();
+        });
+        
+        // Load dashboard data
+        function loadDashboardData() {
+            // Load students
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            document.getElementById('totalStudentsCount').textContent = students.length;
+            
+            // Load faculty
+            const faculty = JSON.parse(localStorage.getItem('facultyAccounts')) || [];
+            document.getElementById('totalFacultyCount').textContent = faculty.length;
+            
+            // Load events
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            document.getElementById('totalEventsCount').textContent = events.length;
+            
+            // Load registrations
+            const registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+            document.getElementById('totalRegistrationsCount').textContent = registrations.length;
+            
+            // Load activity feed
+            loadActivityFeed();
+            
+            // Load tables
+            loadEventsTable();
+            loadStudentsTable();
+            loadFacultyTable();
+        }
+        
+        // Load activity feed
+        function loadActivityFeed() {
+            const activityFeed = document.getElementById('activityFeed');
+            activityFeed.innerHTML = `
+                <div class="activity-item">
+                    <div class="activity-icon blue">👤</div>
+                    <div class="activity-content">
+                        <div class="activity-title">New Student Registered</div>
+                        <div class="activity-description">John Doe registered as a new student</div>
+                        <div class="activity-time">10 minutes ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon green">📅</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Event Created</div>
+                        <div class="activity-description">TECHFEST 2025 was created</div>
+                        <div class="activity-time">1 hour ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon orange">📝</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Registration Completed</div>
+                        <div class="activity-description">Student registered for YUVABEAT event</div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon purple">⚙️</div>
+                    <div class="activity-content">
+                        <div class="activity-title">System Update</div>
+                        <div class="activity-description">System settings were updated</div>
+                        <div class="activity-time">1 day ago</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Load events table
+        function loadEventsTable() {
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const tableBody = document.getElementById('eventsTableBody');
+            
+            if (events.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="no-data">No events found</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = events.map(event => {
+                // Count registrations for this event
+                const registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+                const eventRegs = registrations.filter(r => r.eventId === event.id).length;
+                
+                return `
+                    <tr>
+                        <td>${event.title}</td>
+                        <td>${event.category}</td>
+                        <td>${event.date}</td>
+                        <td><span class="status-badge approved">Approved</span></td>
+                        <td>${eventRegs}</td>
+                        <td class="action-btns">
+                            <button class="btn-action btn-view">View</button>
+                            <button class="btn-action btn-edit">Edit</button>
+                            <button class="btn-action btn-delete">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // Load students table
+        function loadStudentsTable() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const tableBody = document.getElementById('studentsTableBody');
+            
+            if (students.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="no-data">No students found</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = students.map(student => `
+                <tr>
+                    <td>${student.fullName}</td>
+                    <td>${student.email}</td>
+                    <td>${student.department}</td>
+                    <td>${student.year === '1' ? 'First' : student.year === '2' ? 'Second' : student.year === '3' ? 'Third' : 'Final'} Year</td>
+                    <td>${new Date(student.createdAt).toLocaleDateString()}</td>
+                    <td class="action-btns">
+                        <button class="btn-action btn-view">View</button>
+                        <button class="btn-action btn-edit">Edit</button>
+                        <button class="btn-action btn-delete">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        // Load faculty table
+        function loadFacultyTable() {
+            const faculty = JSON.parse(localStorage.getItem('facultyAccounts')) || [];
+            const tableBody = document.getElementById('facultyTableBody');
+            
+            if (faculty.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="no-data">No faculty found</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = faculty.map(member => `
+                <tr>
+                    <td>${member.name}</td>
+                    <td>${member.email}</td>
+                    <td>${member.department || 'N/A'}</td>
+                    <td>${member.role.charAt(0).toUpperCase() + member.role.slice(1)}</td>
+                    <td>${member.joinDate ? new Date(member.joinDate).toLocaleDateString() : 'N/A'}</td>
+                    <td class="action-btns">
+                        <button class="btn-action btn-view">View</button>
+                        <button class="btn-action btn-edit">Edit</button>
+                        <button class="btn-action btn-delete">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Sidebar navigation
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all items
+                    sidebarItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Hide all sections
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show selected section
+                    const sectionId = this.getAttribute('data-section') + 'Section';
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+            
+            // Mobile sidebar toggle
+            const mobileToggle = document.getElementById('mobileSidebarToggle');
+            const sidebar = document.getElementById('facultySidebar');
+            
+            if (mobileToggle && sidebar) {
+                mobileToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('open');
+                });
+            }
+            
+            // User profile dropdown
+            const userProfileBtn = document.getElementById('userProfileBtn');
+            const profileDropdown = document.getElementById('profileDropdown');
+            
+            if (userProfileBtn && profileDropdown) {
+                userProfileBtn.addEventListener('click', function() {
+                    profileDropdown.classList.toggle('show');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!userProfileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                        profileDropdown.classList.remove('show');
+                    }
+                });
+            }
+            
+            // Notifications panel
+            const notificationsBtn = document.getElementById('notificationsBtn');
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            const closeNotifications = document.getElementById('closeNotifications');
+            
+            if (notificationsBtn && notificationsPanel && closeNotifications) {
+                notificationsBtn.addEventListener('click', function() {
+                    notificationsPanel.classList.add('open');
+                });
+                
+                closeNotifications.addEventListener('click', function() {
+                    notificationsPanel.classList.remove('open');
+                });
+            }
+        }
+        
+        // Open add event modal
+        function openAddEventModal() {
+            alert('Add Event functionality would be implemented here');
+        }
+        
+        // Export students data
+        function exportStudents() {
+            alert('Export functionality would be implemented here');
+        }
+        
+        // Open add faculty modal
+        function openAddFacultyModal() {
+            alert('Add Faculty functionality would be implemented here');
+        }
+        
+        // Perform backup
+        function performBackup() {
+            alert('Backup initiated successfully!');
+        }
+    </script>
+</body>
+</html>

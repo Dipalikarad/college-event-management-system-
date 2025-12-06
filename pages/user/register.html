@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration - College EMS</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="../../assets/logos/logo.png" alt="College Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    <h2>SSIEMS</h2>
+                    <p>Event Management System</p>
+                </div>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../events/events.html" class="nav-link">Events</a>
+                <a href="register.html" class="nav-link active">Register</a>
+                <a href="../auth/student-login.html" class="nav-link">Student Login</a>
+                <a href="../auth/faculty-login.html" class="nav-link">Faculty Login</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Register Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Event Registration</h1>
+            <p>Register for upcoming college events</p>
+        </div>
+    </section>
+
+    <!-- Register Section -->
+    <section class="register-section">
+        <div class="container">
+            <div class="register-card">
+                <div class="register-header">
+                    <h1>Event Registration Form</h1>
+                    <p>Please fill in your details to register for events</p>
+                </div>
+                
+                <form id="eventRegistrationForm" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentName">Full Name <span class="required">*</span></label>
+                            <input type="text" id="studentName" name="fullName" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentEmail">Email Address <span class="required">*</span></label>
+                            <input type="email" id="studentEmail" name="email" placeholder="student@college.edu" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentDepartment">Department <span class="required">*</span></label>
+                            <select id="studentDepartment" name="department" required>
+                                <option value="">Select Department</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Electronics & Telecommunication">Electronics & Telecommunication</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                <option value="Civil Engineering">Civil Engineering</option>
+                                <option value="Electrical Engineering">Electrical Engineering</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentYear">Year <span class="required">*</span></label>
+                            <select id="studentYear" name="year" required>
+                                <option value="">Select Year</option>
+                                <option value="1">First Year</option>
+                                <option value="2">Second Year</option>
+                                <option value="3">Third Year</option>
+                                <option value="4">Final Year</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventSelection">Select Event <span class="required">*</span></label>
+                        <select id="eventSelection" name="event" required>
+                            <option value="">Choose an event</option>
+                            <option value="yuvabeat">YUVABEAT – Annual Cultural Fest</option>
+                            <option value="compsa">COMPSA – Computer Science Students' Association Event</option>
+                            <option value="naac">NAAC Accreditation Activities</option>
+                            <option value="techfest">TECHFEST – Technical Festival</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teamMembers">Team Members (if applicable)</label>
+                        <textarea id="teamMembers" name="teamMembers" placeholder="Enter names of team members (one per line)" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>I agree to the event terms and conditions and confirm that all information provided is accurate</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        Register for Event
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>College EMS</h3>
+                    <p>Your gateway to amazing college events and experiences.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../../index.html">Home</a></li>
+                        <li><a href="../events/events.html">Events</a></li>
+                        <li><a href="register.html">Register</a></li>
+                        <li><a href="../auth/student-login.html">Student Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: ssiems@college.edu</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 College Event Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.SUPABASE_URL = '';
+        window.SUPABASE_ANON_KEY = '';
+    </script>
+    <script src="../../js/script.js"></script>
+</body>
+</html>
