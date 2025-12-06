@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Duties</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="../../assets/logos/logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text"><h2>SSIEMS</h2><p>Event Management System</p></div>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../events/events.html" class="nav-link">Events</a>
+                <a href="../auth/faculty-login.html" class="nav-link">Faculty Login</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <section class="register-section">
+        <div class="container">
+            <div class="register-card">
+                <div class="register-header"><h1>Faculty Duty Allocation</h1><p>Assign responsibilities</p></div>
+                <form id="dutyForm" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="facultyEmail">Faculty Email <span class="required">*</span></label>
+                            <input type="email" id="facultyEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dutyRole">Role <span class="required">*</span></label>
+                            <select id="dutyRole" required>
+                                <option value="">Select</option>
+                                <option value="Anchoring">Anchoring</option>
+                                <option value="Refreshment">Refreshment</option>
+                                <option value="Decoration">Decoration</option>
+                                <option value="Management">Management</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dutyEvent">Event <span class="required">*</span></label>
+                        <select id="dutyEvent" required>
+                            <option value="event-compsa">COMPSA</option>
+                            <option value="event-techfest">TECHFEST</option>
+                            <option value="event-yuvabeat">YUVABEAT</option>
+                            <option value="event-naac">NAAC</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit">Assign Duty</button>
+                </form>
+                <div class="register-header"><h2>Assigned Duties</h2></div>
+                <div id="dutiesList" class="registrations-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h3>College EMS</h3><p>Your gateway to amazing college events and experiences.</p></div>
+                <div class="footer-section"><h4>Quick Links</h4><ul><li><a href="../../index.html">Home</a></li><li><a href="../events/events.html">Events</a></li></ul></div>
+                <div class="footer-section"><h4>Contact</h4><p>Email: ssiems@college.edu</p><p>Phone: +1 (555) 123-4567</p></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 College Event Management System. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>window.SUPABASE_URL='';window.SUPABASE_ANON_KEY='';</script>
+    <script src="../../js/script.js"></script>
+</body>
+</html>

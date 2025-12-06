@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMPSA Refreshment Management</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="../../assets/logos/logo.png" alt="College Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    <h2>SSIEMS</h2>
+                    <p>Event Management System</p>
+                </div>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../events/events.html" class="nav-link">Events</a>
+                <a href="../events/event-details.html?id=event-compsa" class="nav-link active">COMPSA</a>
+                <a href="../user/register.html" class="nav-link">Register</a>
+                <a href="../auth/student-login.html" class="nav-link">Student Login</a>
+                <a href="../auth/faculty-login.html" class="nav-link">Faculty Login</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Refreshment Management Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>COMPSA Refreshment Management</h1>
+            <p>QR-code based coupon system</p>
+        </div>
+    </section>
+
+    <!-- Refreshment Management Section -->
+    <section class="register-section">
+        <div class="container">
+            <div class="register-card">
+                <div class="register-header">
+                    <h2>Generate Refreshment Coupons</h2>
+                    <p>Create QR codes for students and faculty</p>
+                </div>
+                
+                <form id="couponForm" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="recipientType">Recipient Type <span class="required">*</span></label>
+                            <select id="recipientType" required>
+                                <option value="">Select Type</option>
+                                <option value="student">Student</option>
+                                <option value="faculty">Faculty</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipientCount">Number of Coupons <span class="required">*</span></label>
+                            <input type="number" id="recipientCount" min="1" max="100" value="1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="couponValue">Coupon Value</label>
+                        <input type="text" id="couponValue" readonly>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-submit">Generate Coupons</button>
+                </form>
+                
+                <div id="couponsContainer" class="coupons-container">
+                    <!-- Generated coupons will appear here -->
+                </div>
+                
+                <div class="register-header">
+                    <h2>Vendor Verification</h2>
+                    <p>Scan QR codes to verify and distribute refreshments</p>
+                </div>
+                
+                <form id="verificationForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="qrCodeInput">Scan QR Code <span class="required">*</span></label>
+                        <input type="text" id="qrCodeInput" placeholder="Enter QR code or use scanner" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vendorName">Vendor Name <span class="required">*</span></label>
+                        <input type="text" id="vendorName" required placeholder="Enter your name">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-submit">Verify & Distribute</button>
+                </form>
+                
+                <div id="verificationResult" class="verification-result">
+                    <!-- Verification results will appear here -->
+                </div>
+                
+                <div class="register-header">
+                    <h2>Refreshment Statistics</h2>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-icon">🎫</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value" id="totalCoupons">0</h3>
+                            <p class="stat-label">Total Coupons Generated</p>
+                        </div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value" id="redeemedCoupons">0</h3>
+                            <p class="stat-label">Coupons Redeemed</p>
+                        </div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-icon">👤</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value" id="studentCoupons">0</h3>
+                            <p class="stat-label">Student Coupons</p>
+                        </div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-icon">👨‍🏫</div>
+                        <div class="stat-details">
+                            <h3 class="stat-value" id="facultyCoupons">0</h3>
+                            <p class="stat-label">Faculty Coupons</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>College EMS</h3>
+                    <p>Your gateway to amazing college events and experiences.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../../index.html">Home</a></li>
+                        <li><a href="../events/events.html">Events</a></li>
+                        <li><a href="../user/register.html">Register</a></li>
+                        <li><a href="../auth/student-login.html">Student Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: ssiems@college.edu</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 College Event Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.SUPABASE_URL = '';
+        window.SUPABASE_ANON_KEY = '';
+    </script>
+    <script src="../../js/script.js"></script>
+    <script src="../../js/api.js"></script>
+    <script>
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial coupon values based on recipient type
+            document.getElementById('recipientType').addEventListener('change', function() {
+                const couponValue = document.getElementById('couponValue');
+                if (this.value === 'student') {
+                    couponValue.value = '₹50';
+                } else if (this.value === 'faculty') {
+                    couponValue.value = '₹100';
+                } else {
+                    couponValue.value = '';
+                }
+            });
+            
+            // Handle coupon generation form submission
+            document.getElementById('couponForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                generateCoupons();
+            });
+            
+            // Handle verification form submission
+            document.getElementById('verificationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                verifyCoupon();
+            });
+            
+            // Load statistics
+            loadStatistics();
+        });
+        
+        // Generate coupons
+        async function generateCoupons() {
+            const recipientType = document.getElementById('recipientType').value;
+            const couponValue = document.getElementById('couponValue').value;
+            
+            if (!recipientType || !couponValue) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            try {
+                const result = await COMPSAAPI.generateRefreshmentCoupon({
+                    recipientType: recipientType,
+                    value: couponValue
+                });
+                
+                if (result.success) {
+                    const couponsContainer = document.getElementById('couponsContainer');
+                    couponsContainer.innerHTML = '<h3>Generated Coupons</h3>';
+                    
+                    const couponId = result.couponId;
+                    const qrCode = generateQRCode(couponId);
+                    
+                    const couponDiv = document.createElement('div');
+                    couponDiv.className = 'coupon-card';
+                    couponDiv.innerHTML = `
+                        <div class="coupon-header">
+                            <h4>${recipientType.charAt(0).toUpperCase() + recipientType.slice(1)} Refreshment Coupon</h4>
+                            <div class="coupon-value">${couponValue}</div>
+                        </div>
+                        <div class="qr-code-container">
+                            <div class="qr-code">${qrCode}</div>
+                            <div class="coupon-id">${couponId}</div>
+                        </div>
+                        <div class="coupon-footer">
+                            <p>Valid for COMPSA Event</p>
+                            <p>Redeem at participating vendors</p>
+                        </div>
+                    `;
+                    couponsContainer.appendChild(couponDiv);
+                    
+                    // Update statistics
+                    updateStatistics(recipientType, 1);
+                } else {
+                    alert('Error generating coupon: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error generating coupon:', error);
+                alert('Error generating coupon. Please try again.');
+            }
+        }
+        
+        // Generate a unique coupon ID
+        function generateCouponId(recipientType) {
+            const prefix = recipientType === 'student' ? 'STU' : 'FAC';
+            const timestamp = Date.now().toString().slice(-6);
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `${prefix}-${timestamp}-${random}`;
+        }
+        
+        // Generate a simple QR code representation (in a real app, this would be an actual QR code)
+        function generateQRCode(couponId) {
+            // This is a simplified representation - in a real app, you would use a QR code library
+            return `
+                <div class="qr-placeholder">
+                    <div class="qr-pattern"></div>
+                    <div class="qr-pattern"></div>
+                    <div class="qr-pattern"></div>
+                    <div class="qr-center">QR</div>
+                </div>
+            `;
+        }
+        
+        // Verify coupon
+        async function verifyCoupon() {
+            const qrCodeInput = document.getElementById('qrCodeInput').value;
+            const vendorName = document.getElementById('vendorName').value;
+            
+            if (!qrCodeInput || !vendorName) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            try {
+                const result = await COMPSAAPI.redeemRefreshmentCoupon({
+                    couponId: qrCodeInput,
+                    vendorName: vendorName
+                });
+                
+                if (result.success) {
+                    const verificationResult = document.getElementById('verificationResult');
+                    verificationResult.innerHTML = `
+                        <div class="alert-success">
+                            <h4>Coupon Verified Successfully!</h4>
+                            <p><strong>Coupon ID:</strong> ${result.coupon.couponId}</p>
+                            <p><strong>Verified by:</strong> ${result.coupon.vendorName}</p>
+                            <p><strong>Status:</strong> Valid</p>
+                            <p>Refreshment can be distributed.</p>
+                        </div>
+                    `;
+                    
+                    // Clear the form
+                    document.getElementById('verificationForm').reset();
+                    
+                    // Update statistics
+                    updateRedeemedCoupons();
+                } else {
+                    alert('Error verifying coupon: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error verifying coupon:', error);
+                alert('Error verifying coupon. Please try again.');
+            }
+        }
+        
+        // Load statistics
+        function loadStatistics() {
+            // In a real implementation, this would load from localStorage or a database
+            // For now, we'll initialize with zeros
+            document.getElementById('totalCoupons').textContent = '0';
+            document.getElementById('redeemedCoupons').textContent = '0';
+            document.getElementById('studentCoupons').textContent = '0';
+            document.getElementById('facultyCoupons').textContent = '0';
+        }
+        
+        // Update statistics
+        function updateStatistics(recipientType, count) {
+            const totalCoupons = document.getElementById('totalCoupons');
+            const studentCoupons = document.getElementById('studentCoupons');
+            const facultyCoupons = document.getElementById('facultyCoupons');
+            
+            totalCoupons.textContent = parseInt(totalCoupons.textContent) + count;
+            
+            if (recipientType === 'student') {
+                studentCoupons.textContent = parseInt(studentCoupons.textContent) + count;
+            } else if (recipientType === 'faculty') {
+                facultyCoupons.textContent = parseInt(facultyCoupons.textContent) + count;
+            }
+        }
+        
+        // Update redeemed coupons count
+        function updateRedeemedCoupons() {
+            const redeemedCoupons = document.getElementById('redeemedCoupons');
+            redeemedCoupons.textContent = parseInt(redeemedCoupons.textContent) + 1;
+        }
+    </script>
+    
+    <style>
+        .coupons-container {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .coupon-card {
+            background: white;
+            border: 2px dashed #667eea;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .coupon-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #667eea;
+        }
+        
+        .coupon-header h4 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .coupon-value {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .qr-code-container {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        
+        .qr-code {
+            display: inline-block;
+            background: #f0f2f5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .qr-placeholder {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border: 2px solid #333;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .qr-pattern {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #333;
+        }
+        
+        .qr-pattern:nth-child(1) {
+            top: 10px;
+            left: 10px;
+        }
+        
+        .qr-pattern:nth-child(2) {
+            top: 10px;
+            right: 10px;
+        }
+        
+        .qr-pattern:nth-child(3) {
+            bottom: 10px;
+            left: 10px;
+        }
+        
+        .qr-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .coupon-id {
+            font-family: monospace;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .coupon-footer {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #667eea;
+            color: #666;
+        }
+        
+        .verification-result {
+            margin: 1.5rem 0;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: #155724;
+        }
+        
+        .alert-success h4 {
+            margin-top: 0;
+            color: #155724;
+        }
+        
+        .alert-success p {
+            margin: 0.5rem 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-card.blue {
+            border-top: 4px solid #667eea;
+        }
+        
+        .stat-card.green {
+            border-top: 4px solid #10b981;
+        }
+        
+        .stat-card.orange {
+            border-top: 4px solid #f59e0b;
+        }
+        
+        .stat-card.purple {
+            border-top: 4px solid #8b5cf6;
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .stat-card.blue .stat-icon {
+            background: #667eea;
+        }
+        
+        .stat-card.green .stat-icon {
+            background: #10b981;
+        }
+        
+        .stat-card.orange .stat-icon {
+            background: #f59e0b;
+        }
+        
+        .stat-card.purple .stat-icon {
+            background: #8b5cf6;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-bottom: 0;
+        }
+    </style>
+</body>
+</html>

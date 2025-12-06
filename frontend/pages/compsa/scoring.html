@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMPSA Scoring & Results Management</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="../../assets/logos/logo.png" alt="College Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    <h2>SSIEMS</h2>
+                    <p>Event Management System</p>
+                </div>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../events/events.html" class="nav-link">Events</a>
+                <a href="../events/event-details.html?id=event-compsa" class="nav-link active">COMPSA</a>
+                <a href="../user/register.html" class="nav-link">Register</a>
+                <a href="../auth/student-login.html" class="nav-link">Student Login</a>
+                <a href="../auth/faculty-login.html" class="nav-link">Faculty Login</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Scoring Dashboard Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>COMPSA Scoring & Results Management</h1>
+            <p>Online scoring by judges and automated result storage</p>
+        </div>
+    </section>
+
+    <!-- Scoring Dashboard Section -->
+    <section class="register-section">
+        <div class="container">
+            <div class="register-card">
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="scoring">Scoring</button>
+                    <button class="tab-button" data-tab="results">Results</button>
+                    <button class="tab-button" data-tab="certificates">Certificates</button>
+                    <button class="tab-button" data-tab="reports">Reports</button>
+                </div>
+                
+                <!-- Scoring Tab -->
+                <div id="scoringTab" class="tab-content active">
+                    <div class="register-header">
+                        <h2>Judge Scoring Panel</h2>
+                        <p>Enter scores for participants in various competitions</p>
+                    </div>
+                    
+                    <form id="scoringForm" class="auth-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="competitionSelect">Competition <span class="required">*</span></label>
+                                <select id="competitionSelect" required>
+                                    <option value="">Select Competition</option>
+                                    <option value="debugging">Debugging Sprint</option>
+                                    <option value="algorithm">Algorithm Design Challenge</option>
+                                    <option value="uiux">UI/UX Prototype Clash</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="participantSelect">Participant/Team <span class="required">*</span></label>
+                                <select id="participantSelect" required>
+                                    <option value="">Select Participant/Team</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Scoring Criteria</label>
+                            <div id="scoringCriteria">
+                                <!-- Scoring criteria will be populated dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="judgeComments">Comments</label>
+                            <textarea id="judgeComments" rows="3" placeholder="Add any comments or feedback..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-submit">Submit Score</button>
+                    </form>
+                    
+                    <div class="register-header">
+                        <h2>Live Score Tracking</h2>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="scores-table">
+                            <thead>
+                                <tr>
+                                    <th>Participant/Team</th>
+                                    <th>Competition</th>
+                                    <th>Judge 1</th>
+                                    <th>Judge 2</th>
+                                    <th>Judge 3</th>
+                                    <th>Average</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scoresTableBody">
+                                <!-- Scores will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Results Tab -->
+                <div id="resultsTab" class="tab-content">
+                    <div class="register-header">
+                        <h2>Competition Results</h2>
+                        <p>View and manage competition results</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="resultsCompetition">Select Competition</label>
+                        <select id="resultsCompetition">
+                            <option value="all">All Competitions</option>
+                            <option value="debugging">Debugging Sprint</option>
+                            <option value="algorithm">Algorithm Design Challenge</option>
+                            <option value="uiux">UI/UX Prototype Clash</option>
+                        </select>
+                    </div>
+                    
+                    <div class="results-display">
+                        <div class="winner-card first-place">
+                            <div class="winner-position">1st</div>
+                            <div class="winner-info">
+                                <h3 id="firstPlaceName">-</h3>
+                                <p id="firstPlaceCompetition">-</p>
+                                <p class="winner-score" id="firstPlaceScore">Score: -</p>
+                            </div>
+                        </div>
+                        
+                        <div class="winner-card second-place">
+                            <div class="winner-position">2nd</div>
+                            <div class="winner-info">
+                                <h3 id="secondPlaceName">-</h3>
+                                <p id="secondPlaceCompetition">-</p>
+                                <p class="winner-score" id="secondPlaceScore">Score: -</p>
+                            </div>
+                        </div>
+                        
+                        <div class="winner-card third-place">
+                            <div class="winner-position">3rd</div>
+                            <div class="winner-info">
+                                <h3 id="thirdPlaceName">-</h3>
+                                <p id="thirdPlaceCompetition">-</p>
+                                <p class="winner-score" id="thirdPlaceScore">Score: -</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Participant/Team</th>
+                                    <th>Competition</th>
+                                    <th>Total Score</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody">
+                                <!-- Results will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="actions-bar">
+                        <button class="btn btn-primary" id="publishResults">Publish Results</button>
+                        <button class="btn btn-secondary" id="downloadResults">Download Results</button>
+                    </div>
+                </div>
+                
+                <!-- Certificates Tab -->
+                <div id="certificatesTab" class="tab-content">
+                    <div class="register-header">
+                        <h2>Certificate Generation</h2>
+                        <p>Automatic certificate generation for winners</p>
+                    </div>
+                    
+                    <div class="certificate-preview">
+                        <div class="certificate-template">
+                            <div class="certificate-header">
+                                <h2>COMPSA 2025</h2>
+                                <p>Computer Science Students' Association</p>
+                                <p>Shri Shivaji Institute of Engineering and Management Studies</p>
+                            </div>
+                            
+                            <div class="certificate-content">
+                                <h3>Certificate of Achievement</h3>
+                                <p>This is to certify that</p>
+                                <h1 id="certificateRecipient">-</h1>
+                                <p>has successfully participated in the</p>
+                                <h2 id="certificateCompetition">-</h2>
+                                <p>and secured</p>
+                                <h2 id="certificateRank">-</h2>
+                                <p>position in the COMPSA 2025 event.</p>
+                            </div>
+                            
+                            <div class="certificate-footer">
+                                <div class="signature-section">
+                                    <div class="signature-line"></div>
+                                    <p>Event Coordinator</p>
+                                </div>
+                                <div class="signature-section">
+                                    <div class="signature-line"></div>
+                                    <p>Principal</p>
+                                </div>
+                            </div>
+                            
+                            <div class="certificate-date">
+                                <p>Date: <span id="certificateDate">-</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="certificateWinner">Select Winner</label>
+                        <select id="certificateWinner">
+                            <option value="">Select Winner</option>
+                            <!-- Winners will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="actions-bar">
+                        <button class="btn btn-primary" id="generateCertificate">Generate Certificate</button>
+                        <button class="btn btn-secondary" id="downloadCertificate">Download Certificate</button>
+                        <button class="btn btn-secondary" id="emailCertificate">Email Certificate</button>
+                    </div>
+                </div>
+                
+                <!-- Reports Tab -->
+                <div id="reportsTab" class="tab-content">
+                    <div class="register-header">
+                        <h2>Event Reports & Statistics</h2>
+                        <p>Comprehensive reports and analytics</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card blue">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-details">
+                                <h3 class="stat-value" id="totalParticipants">0</h3>
+                                <p class="stat-label">Total Participants</p>
+                            </div>
+                        </div>
+                        <div class="stat-card green">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-details">
+                                <h3 class="stat-value" id="totalWinners">0</h3>
+                                <p class="stat-label">Total Winners</p>
+                            </div>
+                        </div>
+                        <div class="stat-card orange">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-details">
+                                <h3 class="stat-value" id="completedCompetitions">0</h3>
+                                <p class="stat-label">Completed Competitions</p>
+                            </div>
+                        </div>
+                        <div class="stat-card purple">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-details">
+                                <h3 class="stat-value" id="avgScore">0</h3>
+                                <p class="stat-label">Average Score</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-section">
+                        <h3>Participation Reports</h3>
+                        <div class="table-responsive">
+                            <table class="report-table">
+                                <thead>
+                                    <tr>
+                                        <th>Competition</th>
+                                        <th>Registered</th>
+                                        <th>Participated</th>
+                                        <th>Completion Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="participationReportBody">
+                                    <!-- Report data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="report-section">
+                        <h3>Winner Lists by Competition</h3>
+                        <div class="table-responsive">
+                            <table class="report-table">
+                                <thead>
+                                    <tr>
+                                        <th>Competition</th>
+                                        <th>1st Place</th>
+                                        <th>2nd Place</th>
+                                        <th>3rd Place</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="winnersReportBody">
+                                    <!-- Report data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="report-section">
+                        <h3>Budget Summary</h3>
+                        <div class="budget-summary">
+                            <div class="budget-item">
+                                <span>Prize Money:</span>
+                                <span>₹25,000</span>
+                            </div>
+                            <div class="budget-item">
+                                <span>Refreshments:</span>
+                                <span>₹15,000</span>
+                            </div>
+                            <div class="budget-item">
+                                <span>Certificates & Materials:</span>
+                                <span>₹5,000</span>
+                            </div>
+                            <div class="budget-item">
+                                <span>Marketing & Promotion:</span>
+                                <span>₹3,000</span>
+                            </div>
+                            <div class="budget-item total">
+                                <span>Total Expenditure:</span>
+                                <span>₹48,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="actions-bar">
+                        <button class="btn btn-primary" id="generateReport">Generate Full Report</button>
+                        <button class="btn btn-secondary" id="exportReport">Export to PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>College EMS</h3>
+                    <p>Your gateway to amazing college events and experiences.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../../index.html">Home</a></li>
+                        <li><a href="../events/events.html">Events</a></li>
+                        <li><a href="../user/register.html">Register</a></li>
+                        <li><a href="../auth/student-login.html">Student Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: ssiems@college.edu</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 College Event Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.SUPABASE_URL = '';
+        window.SUPABASE_ANON_KEY = '';
+    </script>
+    <script src="../../js/script.js"></script>
+    <script src="../../js/api.js"></script>
+    <script>
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up tab navigation
+            setupTabs();
+            
+            // Set up form handlers
+            document.getElementById('scoringForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitScore();
+            });
+            
+            document.getElementById('competitionSelect').addEventListener('change', function() {
+                loadParticipants(this.value);
+                loadScoringCriteria(this.value);
+            });
+            
+            document.getElementById('resultsCompetition').addEventListener('change', function() {
+                loadResults(this.value);
+            });
+            
+            document.getElementById('certificateWinner').addEventListener('change', function() {
+                loadCertificatePreview(this.value);
+            });
+            
+            // Set up button handlers
+            document.getElementById('publishResults').addEventListener('click', publishResults);
+            document.getElementById('downloadResults').addEventListener('click', downloadResults);
+            document.getElementById('generateCertificate').addEventListener('click', generateCertificate);
+            document.getElementById('downloadCertificate').addEventListener('click', downloadCertificate);
+            document.getElementById('emailCertificate').addEventListener('click', emailCertificate);
+            document.getElementById('generateReport').addEventListener('click', generateReport);
+            document.getElementById('exportReport').addEventListener('click', exportReport);
+            
+            // Load initial data
+            loadSampleData();
+        });
+        
+        // Set up tab navigation
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and tabs
+                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show corresponding tab content
+                    const tabId = this.getAttribute('data-tab') + 'Tab';
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+        
+        // Load participants for selected competition
+        function loadParticipants(competition) {
+            const participantSelect = document.getElementById('participantSelect');
+            participantSelect.innerHTML = '<option value="">Select Participant/Team</option>';
+            
+            // Sample participants - in a real app, this would come from the database
+            const participants = {
+                'debugging': [
+                    'John Doe (Individual)',
+                    'Jane Smith (Individual)',
+                    'Robert Johnson (Individual)'
+                ],
+                'algorithm': [
+                    'Team Alpha',
+                    'Team Beta',
+                    'Team Gamma'
+                ],
+                'uiux': [
+                    'Designers United',
+                    'Creative Minds',
+                    'Pixel Perfect'
+                ]
+            };
+            
+            if (participants[competition]) {
+                participants[competition].forEach(participant => {
+                    const option = document.createElement('option');
+                    option.value = participant;
+                    option.textContent = participant;
+                    participantSelect.appendChild(option);
+                });
+            }
+        }
+        
+        // Load scoring criteria for selected competition
+        function loadScoringCriteria(competition) {
+            const criteriaContainer = document.getElementById('scoringCriteria');
+            criteriaContainer.innerHTML = '';
+            
+            // Sample criteria - in a real app, this would come from the database
+            const criteria = {
+                'debugging': [
+                    { name: 'Correctness', max: 40 },
+                    { name: 'Efficiency', max: 30 },
+                    { name: 'Code Quality', max: 20 },
+                    { name: 'Time Taken', max: 10 }
+                ],
+                'algorithm': [
+                    { name: 'Algorithm Correctness', max: 35 },
+                    { name: 'Implementation', max: 25 },
+                    { name: 'Optimization', max: 20 },
+                    { name: 'Documentation', max: 10 },
+                    { name: 'Presentation', max: 10 }
+                ],
+                'uiux': [
+                    { name: 'Design Creativity', max: 30 },
+                    { name: 'Usability', max: 25 },
+                    { name: 'Functionality', max: 20 },
+                    { name: 'Visual Appeal', max: 15 },
+                    { name: 'Presentation', max: 10 }
+                ]
+            };
+            
+            if (criteria[competition]) {
+                criteria[competition].forEach(criterion => {
+                    const criterionDiv = document.createElement('div');
+                    criterionDiv.className = 'criterion-item';
+                    criterionDiv.innerHTML = `
+                        <label>${criterion.name} (Max: ${criterion.max})</label>
+                        <input type="number" min="0" max="${criterion.max}" 
+                               class="score-input" data-max="${criterion.max}"
+                               placeholder="Enter score (0-${criterion.max})">
+                    `;
+                    criteriaContainer.appendChild(criterionDiv);
+                });
+            }
+        }
+        
+        // Submit score
+        function submitScore() {
+            const competition = document.getElementById('competitionSelect').value;
+            const participant = document.getElementById('participantSelect').value;
+            const comments = document.getElementById('judgeComments').value;
+            
+            if (!competition || !participant) {
+                alert('Please select competition and participant');
+                return;
+            }
+            
+            // Get scores from inputs
+            const scoreInputs = document.querySelectorAll('.score-input');
+            let totalScore = 0;
+            let valid = true;
+            
+            scoreInputs.forEach(input => {
+                const score = parseInt(input.value) || 0;
+                const max = parseInt(input.getAttribute('data-max'));
+                
+                if (score > max || score < 0) {
+                    valid = false;
+                }
+                
+                totalScore += score;
+            });
+            
+            if (!valid) {
+                alert('Please enter valid scores within the specified range');
+                return;
+            }
+            
+            // Add to scores table
+            const tbody = document.getElementById('scoresTableBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${participant}</td>
+                <td>${getCompetitionName(competition)}</td>
+                <td>-</td>
+                <td>${totalScore}</td>
+                <td>-</td>
+                <td>${totalScore}</td>
+                <td><span class="status-submitted">Submitted</span></td>
+            `;
+            tbody.appendChild(row);
+            
+            // Reset form
+            document.getElementById('scoringForm').reset();
+            document.getElementById('scoringCriteria').innerHTML = '';
+            
+            alert('Score submitted successfully!');
+        }
+        
+        // Get competition name from type
+        function getCompetitionName(type) {
+            const names = {
+                'debugging': 'Debugging Sprint',
+                'algorithm': 'Algorithm Design Challenge',
+                'uiux': 'UI/UX Prototype Clash'
+            };
+            return names[type] || type;
+        }
+        
+        // Load results
+        function loadResults(competition) {
+            // In a real implementation, this would load results from the database
+            // For now, we'll just show an alert
+            alert(`Loading results for: ${competition === 'all' ? 'All Competitions' : competition}`);
+        }
+        
+        // Load certificate preview
+        function loadCertificatePreview(winner) {
+            if (!winner) return;
+            
+            // Update certificate preview
+            document.getElementById('certificateRecipient').textContent = winner;
+            document.getElementById('certificateCompetition').textContent = 'Debugging Sprint';
+            document.getElementById('certificateRank').textContent = '1st';
+            document.getElementById('certificateDate').textContent = new Date().toLocaleDateString();
+        }
+        
+        // Publish results
+        function publishResults() {
+            alert('Results published successfully to the event portal!');
+        }
+        
+        // Download results
+        function downloadResults() {
+            alert('Downloading results as CSV file...');
+        }
+        
+        // Generate certificate
+        function generateCertificate() {
+            const winner = document.getElementById('certificateWinner').value;
+            if (!winner) {
+                alert('Please select a winner');
+                return;
+            }
+            
+            alert(`Certificate generated for ${winner}`);
+        }
+        
+        // Download certificate
+        function downloadCertificate() {
+            alert('Downloading certificate as PDF...');
+        }
+        
+        // Email certificate
+        function emailCertificate() {
+            alert('Sending certificate via email...');
+        }
+        
+        // Generate report
+        function generateReport() {
+            alert('Generating comprehensive event report...');
+        }
+        
+        // Export report
+        function exportReport() {
+            alert('Exporting report to PDF...');
+        }
+        
+        // Load sample data
+        function loadSampleData() {
+            // Sample scores data
+            const scores = [
+                { participant: 'John Doe', competition: 'Debugging Sprint', judge1: 38, judge2: 35, judge3: 40, average: 37.7, status: 'Completed' },
+                { participant: 'Team Alpha', competition: 'Algorithm Design Challenge', judge1: 28, judge2: 30, judge3: 25, average: 27.7, status: 'Completed' },
+                { participant: 'Designers United', competition: 'UI/UX Prototype Clash', judge1: 25, judge2: 28, judge3: 27, average: 26.7, status: 'In Progress' }
+            ];
+            
+            const scoresTbody = document.getElementById('scoresTableBody');
+            scores.forEach(score => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${score.participant}</td>
+                    <td>${score.competition}</td>
+                    <td>${score.judge1}</td>
+                    <td>${score.judge2}</td>
+                    <td>${score.judge3}</td>
+                    <td>${score.average.toFixed(1)}</td>
+                    <td><span class="status-${score.status.toLowerCase().replace(' ', '-')}">${score.status}</span></td>
+                `;
+                scoresTbody.appendChild(row);
+            });
+            
+            // Sample results data
+            document.getElementById('firstPlaceName').textContent = 'John Doe';
+            document.getElementById('firstPlaceCompetition').textContent = 'Debugging Sprint';
+            document.getElementById('firstPlaceScore').textContent = 'Score: 37.7';
+            
+            document.getElementById('secondPlaceName').textContent = 'Team Alpha';
+            document.getElementById('secondPlaceCompetition').textContent = 'Algorithm Design Challenge';
+            document.getElementById('secondPlaceScore').textContent = 'Score: 27.7';
+            
+            document.getElementById('thirdPlaceName').textContent = 'Designers United';
+            document.getElementById('thirdPlaceCompetition').textContent = 'UI/UX Prototype Clash';
+            document.getElementById('thirdPlaceScore').textContent = 'Score: 26.7';
+            
+            // Sample results table data
+            const results = [
+                { rank: 1, participant: 'John Doe', competition: 'Debugging Sprint', score: 37.7, status: 'Winner' },
+                { rank: 2, participant: 'Team Alpha', competition: 'Algorithm Design Challenge', score: 27.7, status: 'Winner' },
+                { rank: 3, participant: 'Designers United', competition: 'UI/UX Prototype Clash', score: 26.7, status: 'Winner' },
+                { rank: 4, participant: 'Jane Smith', competition: 'Debugging Sprint', score: 32.3, status: 'Participant' },
+                { rank: 5, participant: 'Team Beta', competition: 'Algorithm Design Challenge', score: 24.5, status: 'Participant' }
+            ];
+            
+            const resultsTbody = document.getElementById('resultsTableBody');
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${result.rank}</td>
+                    <td>${result.participant}</td>
+                    <td>${result.competition}</td>
+                    <td>${result.score}</td>
+                    <td><span class="status-${result.status.toLowerCase()}">${result.status}</span></td>
+                `;
+                resultsTbody.appendChild(row);
+            });
+            
+            // Sample certificate winners
+            const winners = [
+                'John Doe - Debugging Sprint (1st)',
+                'Team Alpha - Algorithm Design Challenge (1st)',
+                'Designers United - UI/UX Prototype Clash (1st)',
+                'Jane Smith - Debugging Sprint (2nd)'
+            ];
+            
+            const certificateSelect = document.getElementById('certificateWinner');
+            winners.forEach(winner => {
+                const option = document.createElement('option');
+                option.value = winner;
+                option.textContent = winner;
+                certificateSelect.appendChild(option);
+            });
+            
+            // Sample statistics
+            document.getElementById('totalParticipants').textContent = '45';
+            document.getElementById('totalWinners').textContent = '12';
+            document.getElementById('completedCompetitions').textContent = '3';
+            document.getElementById('avgScore').textContent = '27.4';
+            
+            // Sample participation report
+            const participationData = [
+                { competition: 'Debugging Sprint', registered: 20, participated: 18, rate: '90%' },
+                { competition: 'Algorithm Design Challenge', registered: 15, participated: 12, rate: '80%' },
+                { competition: 'UI/UX Prototype Clash', registered: 10, participated: 9, rate: '90%' }
+            ];
+            
+            const participationTbody = document.getElementById('participationReportBody');
+            participationData.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.competition}</td>
+                    <td>${data.registered}</td>
+                    <td>${data.participated}</td>
+                    <td>${data.rate}</td>
+                `;
+                participationTbody.appendChild(row);
+            });
+            
+            // Sample winners report
+            const winnersData = [
+                { competition: 'Debugging Sprint', first: 'John Doe', second: 'Jane Smith', third: 'Robert Johnson' },
+                { competition: 'Algorithm Design Challenge', first: 'Team Alpha', second: 'Team Beta', third: 'Team Gamma' },
+                { competition: 'UI/UX Prototype Clash', first: 'Designers United', second: 'Creative Minds', third: 'Pixel Perfect' }
+            ];
+            
+            const winnersTbody = document.getElementById('winnersReportBody');
+            winnersData.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.competition}</td>
+                    <td>${data.first}</td>
+                    <td>${data.second}</td>
+                    <td>${data.third}</td>
+                `;
+                winnersTbody.appendChild(row);
+            });
+        }
+    </script>
+    
+    <style>
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        
+        .tab-button {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button:hover {
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .tab-button.active {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .criterion-item {
+            margin-bottom: 1rem;
+        }
+        
+        .criterion-item label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .score-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .scores-table, .results-table, .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .scores-table th, .scores-table td,
+        .results-table th, .results-table td,
+        .report-table th, .report-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .scores-table th, .results-table th, .report-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .scores-table tr:hover, .results-table tr:hover, .report-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status-submitted {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-in-progress {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-winner {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-participant {
+            background: #f8f9fa;
+            color: #666;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .results-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .winner-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .winner-card.first-place {
+            border-top: 5px solid #ffd700;
+        }
+        
+        .winner-card.second-place {
+            border-top: 5px solid #c0c0c0;
+        }
+        
+        .winner-card.third-place {
+            border-top: 5px solid #cd7f32;
+        }
+        
+        .winner-position {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .winner-card.first-place .winner-position {
+            background: #ffd700;
+            color: #333;
+        }
+        
+        .winner-card.second-place .winner-position {
+            background: #c0c0c0;
+        }
+        
+        .winner-card.third-place .winner-position {
+            background: #cd7f32;
+        }
+        
+        .winner-info h3 {
+            margin: 1rem 0 0.5rem 0;
+            color: #333;
+        }
+        
+        .winner-info p {
+            margin: 0.25rem 0;
+            color: #666;
+        }
+        
+        .winner-score {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .certificate-preview {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .certificate-template {
+            background: white;
+            border: 15px solid #f0f2f5;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .certificate-header h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .certificate-header p {
+            margin: 0.25rem 0;
+            color: #666;
+        }
+        
+        .certificate-content h3 {
+            color: #333;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .certificate-content p {
+            color: #666;
+            margin: 0.5rem 0;
+        }
+        
+        .certificate-content h1 {
+            color: #667eea;
+            margin: 1rem 0;
+            font-size: 2rem;
+        }
+        
+        .certificate-content h2 {
+            color: #333;
+            margin: 1rem 0;
+        }
+        
+        .certificate-footer {
+            display: flex;
+            justify-content: space-around;
+            margin: 3rem 0 1rem 0;
+        }
+        
+        .signature-section {
+            text-align: center;
+        }
+        
+        .signature-line {
+            width: 150px;
+            height: 1px;
+            background: #333;
+            margin: 0 auto 1rem auto;
+        }
+        
+        .certificate-date {
+            margin-top: 2rem;
+            color: #666;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-card.blue {
+            border-top: 4px solid #667eea;
+        }
+        
+        .stat-card.green {
+            border-top: 4px solid #10b981;
+        }
+        
+        .stat-card.orange {
+            border-top: 4px solid #f59e0b;
+        }
+        
+        .stat-card.purple {
+            border-top: 4px solid #8b5cf6;
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .stat-card.blue .stat-icon {
+            background: #667eea;
+        }
+        
+        .stat-card.green .stat-icon {
+            background: #10b981;
+        }
+        
+        .stat-card.orange .stat-icon {
+            background: #f59e0b;
+        }
+        
+        .stat-card.purple .stat-icon {
+            background: #8b5cf6;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-bottom: 0;
+        }
+        
+        .report-section {
+            margin: 2rem 0;
+        }
+        
+        .report-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .budget-summary {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        
+        .budget-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .budget-item.total {
+            font-weight: 600;
+            border-top: 2px solid #333;
+            border-bottom: none;
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+        }
+        
+        .actions-bar {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                border-bottom: 1px solid #e9ecef;
+                border-right: 3px solid transparent;
+            }
+            
+            .tab-button.active {
+                border-bottom: 1px solid #e9ecef;
+                border-right: 3px solid #667eea;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .results-display {
+                grid-template-columns: 1fr;
+            }
+            
+            .certificate-footer {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>
